@@ -11,6 +11,13 @@ abstract class Node<K : Comparable<K>, V, T : Node<K, V, T>>(
         internal set
 }
 
+class BSTNode<K : Comparable<K>, V>(
+    key: K,
+    value: V,
+    left: BSTNode<K, V>? = null,
+    right: BSTNode<K, V>? = null,
+) : Node<K, V, BSTNode<K, V>>(key, value, left, right)
+
 internal enum class Color { RED, BLACK }
 
 class RBTNode<K : Comparable<K>, V> internal constructor(
