@@ -1,4 +1,4 @@
-abstract class BinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>> :
+abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>> :
     BinaryTree<K, V>, Iterable<T> {
     private var modCnt: Long = 0
     protected var root: T? = null
