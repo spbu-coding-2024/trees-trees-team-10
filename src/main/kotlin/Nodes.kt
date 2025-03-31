@@ -29,3 +29,12 @@ class RBTNode<K : Comparable<K>, V> internal constructor(
     internal var parent: RBTNode<K, V>? = null
     internal var color: Color = Color.RED
 }
+
+class AVLNode<K : Comparable<K>, V> internal constructor(
+    key: K,
+    value: V,
+    left: AVLNode<K, V>? = null,
+    right: AVLNode<K, V>? = null,
+): Node<K, V, AVLNode<K, V>>(key, value, left, right) {
+    internal var height: Int = 1
+}
