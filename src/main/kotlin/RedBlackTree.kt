@@ -99,6 +99,7 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
                 }
                 curNode = curNode.left
             } else {
+                curNode.value = value
                 break
             }
         }
