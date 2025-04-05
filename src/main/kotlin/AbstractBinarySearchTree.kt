@@ -41,7 +41,7 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
         return null
     }
 
-    fun isEmpty(): Boolean{
+    fun isEmpty(): Boolean {
         return root == null
     }
 

@@ -1,5 +1,8 @@
 open class BinarySearchTree<K : Comparable<K>, V> : AbstractBinarySearchTree<K, V, BSTNode<K, V>>() {
-    override fun insertInternal(key: K, value: V) {
+    override fun insertInternal(
+        key: K,
+        value: V,
+    ) {
         if (root == null) {
             root = BSTNode(key, value)
             return

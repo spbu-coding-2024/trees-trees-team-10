@@ -1,7 +1,10 @@
-import net.jqwik.api.*
+import net.jqwik.api.ForAll
+import net.jqwik.api.Property
+import net.jqwik.api.constraints.Size
 import org.assertj.core.api.Assertions.assertThat
-import net.jqwik.api.constraints.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -194,16 +197,21 @@ class TestableBSTree<K : Comparable<K>, V> : BinarySearchTree<K, V>() {
 }
 
 internal class BinarySearchTreeProperties {
-
     @Property
-    fun `find inserted value`(@ForAll key: Int, @ForAll value: String) {
+    fun `find inserted value`(
+        @ForAll key: Int,
+        @ForAll value: String,
+    ) {
         val bst = TestableBSTree<Int, String>()
         bst.insert(key, value)
         assertThat(bst.search(key)).isEqualTo(value)
     }
 
     @Property
-    fun `delete value`(@ForAll key: Int, @ForAll value: String) {
+    fun `delete value`(
+        @ForAll key: Int,
+        @ForAll value: String,
+    ) {
         val bst = TestableBSTree<Int, String>()
         bst.insert(key, value)
         bst.delete(key)
@@ -211,7 +219,9 @@ internal class BinarySearchTreeProperties {
     }
 
     @Property
-    fun `BST invariants`(@ForAll keys: List<Int>) {
+    fun `BST invariants`(
+        @ForAll keys: List<Int>,
+    ) {
         val bst = TestableBSTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
@@ -226,7 +236,9 @@ internal class BinarySearchTreeProperties {
     }
 
     @Property
-    fun `min should return smallest key`(@ForAll @Size(min = 1) keys: List<Int>) {
+    fun `min should return smallest key`(
+        @ForAll @Size(min = 1) keys: List<Int>,
+    ) {
         val bst = TestableBSTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
@@ -240,7 +252,9 @@ internal class BinarySearchTreeProperties {
     }
 
     @Property
-    fun `max should return largest key`(@ForAll @Size(min = 1) keys: List<Int>) {
+    fun `max should return largest key`(
+        @ForAll @Size(min = 1) keys: List<Int>,
+    ) {
         val bst = TestableBSTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
@@ -254,12 +268,15 @@ internal class BinarySearchTreeProperties {
     }
 
     @Property
-    fun `iterator should return elements in order`(@ForAll keys: List<Int>) {
+    fun `iterator should return elements in order`(
+        @ForAll keys: List<Int>,
+    ) {
         val bst = TestableBSTree<Int, String>()
         val uniqueKeys = keys.toSet()
         uniqueKeys.forEach { bst.insert(it, "value_$it") }
         val traversed = bst.iterator().asSequence().map { it.key }.toList()
         assertThat(traversed).isEqualTo(uniqueKeys.sorted())
+
         fun collectInOrder(node: BSTNode<Int, String>?): List<Int> {
             node ?: return emptyList()
             return collectInOrder(node.left) + listOf(node.key) + collectInOrder(node.right)
