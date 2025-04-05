@@ -73,7 +73,7 @@ class RBTForTest<K : Comparable<K>, V> : RedBlackTree<K, V>() {
         max: K?,
     ): Boolean {
         node ?: return true
-        if ((min != null && node.key < min) && (max != null && node.key > max)) {
+        if ((min != null && node.key < min) || (max != null && node.key > max)) {
             return false
         }
         return check(node.left, min, node.key) && check(node.right, node.key, max)
