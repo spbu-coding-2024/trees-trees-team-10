@@ -123,8 +123,7 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
         insertCase2(n)
     }
 
-    private fun insertCase2(n: RBTNode<K, V>?) {
-        n ?: return
+    private fun insertCase2(n: RBTNode<K, V>) {
         if (isBlack(n.parent)) {
             return
         } else {
@@ -132,8 +131,7 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
         }
     }
 
-    private fun insertCase3(n: RBTNode<K, V>?) {
-        n ?: return
+    private fun insertCase3(n: RBTNode<K, V>) {
         val u = uncle(n)
         if (isRed(n.parent) && isRed(u)) {
             n.parent?.color = Color.BLACK
@@ -146,9 +144,8 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
         }
     }
 
-    private fun insertCase4(n: RBTNode<K, V>?) {
-        n ?: return
-        var mutN = n
+    private fun insertCase4(n: RBTNode<K, V>) {
+        var mutN: RBTNode<K, V>? = n
         val p = n.parent ?: return
         if (isLeftChild(p) && isRightChild(n)) {
             leftRotate(p)
@@ -203,12 +200,8 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
         n.key = deleteNode.key
         n.value = deleteNode.value
 
-        val child =
-            if (deleteNode.left != null) {
-                deleteNode.left
-            } else {
-                deleteNode.right
-            }
+        val child = deleteNode.left ?: deleteNode.right
+
         if (isRed(deleteNode)) {
             if (deleteNode.parent?.left == deleteNode) {
                 deleteNode.parent?.left = null
