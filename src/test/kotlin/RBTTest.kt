@@ -371,21 +371,22 @@ class RBTTest {
     }
 
     @Test
-    fun `emptyRedBlackTree test`(){
+    fun `emptyRedBlackTree test`() {
         val testTree: RedBlackTree<Int, String> = emptyRedBlackTree()
         assert(testTree.isEmpty())
     }
 
     @Test
-    fun `redBlackTreeOf test`(){
-        val testTree: RedBlackTree<Int, String> = redBlackTreeOf(
-            1 to "1",
-            2 to "2",
-            3 to "3",
-            4 to "4",
-            5 to "5",
-        )
-        for (i in 1..5){
+    fun `redBlackTreeOf test`() {
+        val testTree: RedBlackTree<Int, String> =
+            redBlackTreeOf(
+                1 to "1",
+                2 to "2",
+                3 to "3",
+                4 to "4",
+                5 to "5",
+            )
+        for (i in 1..5) {
             assertEquals(testTree.search(i), "$i")
         }
     }
