@@ -9,11 +9,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class BinarySearchTreeTest {
-    private lateinit var bst: BinarySearchTree<Int, String>
+    private lateinit var bst: TestableBinarySearchTree<Int, String>
 
     @BeforeEach
     fun setUp() {
-        bst = BinarySearchTree()
+        bst = TestableBinarySearchTree()
     }
 
     @Test
@@ -65,6 +65,11 @@ class BinarySearchTreeTest {
     fun `search return null for non-existent key`() {
         bst.insert(1, "Value")
         assertNull(bst.search(2))
+    }
+
+    @Test
+    fun `search in empty tree`() {
+        assertNull(bst.search(1))
     }
 
     @Test
@@ -192,17 +197,13 @@ class BinarySearchTreeTest {
     }
 }
 
-class TestableBSTree<K : Comparable<K>, V> : BinarySearchTree<K, V>() {
-    fun getRoot(): BSTNode<K, V>? = root
-}
-
 internal class BinarySearchTreeProperties {
     @Property
     fun `find inserted value`(
         @ForAll key: Int,
         @ForAll value: String,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         bst.insert(key, value)
         assertThat(bst.search(key)).isEqualTo(value)
     }
@@ -212,7 +213,7 @@ internal class BinarySearchTreeProperties {
         @ForAll key: Int,
         @ForAll value: String,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         bst.insert(key, value)
         bst.delete(key)
         assertThat(bst.search(key)).isNull()
@@ -222,24 +223,17 @@ internal class BinarySearchTreeProperties {
     fun `BST invariants`(
         @ForAll keys: List<Int>,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
-        fun checkNode(node: BSTNode<Int, String>?): Boolean {
-            node ?: return true
-            val leftValid = node.left?.let { it.key < node.key } ?: true
-            val rightValid = node.right?.let { it.key > node.key } ?: true
-            return leftValid && rightValid && checkNode(node.left) && checkNode(node.right)
-        }
-
-        assertThat(checkNode(bst.getRoot())).isTrue()
+        assert(bst.isBinarySearchTree())
     }
 
     @Property
     fun `min should return smallest key`(
         @ForAll @Size(min = 1) keys: List<Int>,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
         assertThat(bst.findMinKey()).isEqualTo(keys.minOrNull())
@@ -255,7 +249,7 @@ internal class BinarySearchTreeProperties {
     fun `max should return largest key`(
         @ForAll @Size(min = 1) keys: List<Int>,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
         assertThat(bst.findMaxKey()).isEqualTo(keys.maxOrNull())
@@ -271,17 +265,12 @@ internal class BinarySearchTreeProperties {
     fun `iterator should return elements in order`(
         @ForAll keys: List<Int>,
     ) {
-        val bst = TestableBSTree<Int, String>()
+        val bst = TestableBinarySearchTree<Int, String>()
         val uniqueKeys = keys.toSet()
         uniqueKeys.forEach { bst.insert(it, "value_$it") }
         val traversed = bst.iterator().asSequence().map { it.key }.toList()
+
         assertThat(traversed).isEqualTo(uniqueKeys.sorted())
-
-        fun collectInOrder(node: BSTNode<Int, String>?): List<Int> {
-            node ?: return emptyList()
-            return collectInOrder(node.left) + listOf(node.key) + collectInOrder(node.right)
-        }
-
-        assertThat(collectInOrder(bst.getRoot())).isEqualTo(uniqueKeys.sorted())
+        assertThat(bst.collectInOrder()).isEqualTo(uniqueKeys.sorted())
     }
 }
