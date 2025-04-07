@@ -11,7 +11,7 @@ abstract class Node<K : Comparable<K>, V, T : Node<K, V, T>>(
         internal set
 }
 
-class BSTNode<K : Comparable<K>, V>(
+class BSTNode<K : Comparable<K>, V> internal constructor(
     key: K,
     value: V,
     left: BSTNode<K, V>? = null,
