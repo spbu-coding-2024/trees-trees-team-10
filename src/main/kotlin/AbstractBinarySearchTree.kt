@@ -1,18 +1,18 @@
 abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>> :
     BinaryTree<K, V>, Iterable<T> {
-    private var modCnt: Long = 0
+    private var modificationCount: Long = 0
     protected var root: T? = null
 
     override fun insert(
         key: K,
         value: V,
     ) {
-        ++modCnt
+        ++modificationCount
         insertInternal(key, value)
     }
 
     override fun delete(key: K) {
-        ++modCnt
+        ++modificationCount
         deleteInternal(key)
     }
 
@@ -28,15 +28,15 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
     }
 
     protected fun findNode(key: K): T? {
-        var curNode = root
+        var currentNode = root
         if (root == null) {
             return null
         }
-        while (curNode != null) {
-            if (key == curNode.key) {
-                return curNode
+        while (currentNode != null) {
+            if (key == currentNode.key) {
+                return currentNode
             }
-            curNode = if (key > curNode.key) curNode.right else curNode.left
+            currentNode = if (key > currentNode.key) currentNode.right else currentNode.left
         }
         return null
     }
@@ -54,17 +54,17 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
     }
 
     protected fun max(node: T?): T? {
-        var curNode = node
-        while (curNode?.right != null)
-            curNode = curNode.right
-        return curNode
+        var currentNode = node
+        while (currentNode?.right != null)
+            currentNode = currentNode.right
+        return currentNode
     }
 
     protected fun min(node: T?): T? {
-        var curNode = node
-        while (curNode?.left != null)
-            curNode = curNode.left
-        return curNode
+        var currentNode = node
+        while (currentNode?.left != null)
+            currentNode = currentNode.left
+        return currentNode
     }
 
     override fun iterator(): Iterator<T> {
@@ -72,7 +72,7 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
     }
 
     private inner class InOrderIterator : Iterator<T> {
-        val curModCnt: Long = modCnt
+        val currentModificationCount: Long = modificationCount
         val nodes = ArrayDeque<T>()
 
         init {
@@ -80,10 +80,10 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
         }
 
         fun addLeft(node: T?) {
-            var curNode = node
-            while (curNode != null) {
-                nodes.addLast(curNode)
-                curNode = curNode.left
+            var currentNode = node
+            while (currentNode != null) {
+                nodes.addLast(currentNode)
+                currentNode = currentNode.left
             }
         }
 
@@ -92,11 +92,11 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
         }
 
         override fun next(): T {
-            if (curModCnt != modCnt) throw ConcurrentModificationException()
+            if (currentModificationCount != modificationCount) throw ConcurrentModificationException()
             if (!hasNext()) throw NoSuchElementException()
-            val curNode = nodes.removeLast()
-            addLeft(curNode.right)
-            return curNode
+            val currentNode = nodes.removeLast()
+            addLeft(currentNode.right)
+            return currentNode
         }
     }
 }

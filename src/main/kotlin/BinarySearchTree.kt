@@ -7,27 +7,27 @@ open class BinarySearchTree<K : Comparable<K>, V> : AbstractBinarySearchTree<K, 
             root = BSTNode(key, value)
             return
         }
-        var curNode = root
-        while (curNode != null) {
+        var currentNode = root
+        while (currentNode != null) {
             when {
-                curNode.key < key -> {
-                    if (curNode.right == null) {
-                        curNode.right = BSTNode(key, value)
+                currentNode.key < key -> {
+                    if (currentNode.right == null) {
+                        currentNode.right = BSTNode(key, value)
                         return
                     }
-                    curNode = curNode.right
+                    currentNode = currentNode.right
                 }
 
-                curNode.key > key -> {
-                    if (curNode.left == null) {
-                        curNode.left = BSTNode(key, value)
+                currentNode.key > key -> {
+                    if (currentNode.left == null) {
+                        currentNode.left = BSTNode(key, value)
                         return
                     }
-                    curNode = curNode.left
+                    currentNode = currentNode.left
                 }
 
                 else -> {
-                    curNode.value = value
+                    currentNode.value = value
                     return
                 }
             }
