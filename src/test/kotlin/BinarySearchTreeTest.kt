@@ -91,6 +91,15 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    fun `delete non-existent key`() {
+        bst.insert(5, "5")
+        bst.insert(3, "3")
+        bst.delete(2)
+
+        assertEquals(listOf(3, 5), bst.map { it.key })
+    }
+
+    @Test
     fun `delete node with one child`() {
         bst.insert(5, "5")
         bst.insert(3, "3")
