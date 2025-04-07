@@ -67,7 +67,7 @@ open class BinarySearchTree<K : Comparable<K>, V> : AbstractBinarySearchTree<K, 
     }
 
     private fun deleteNodeWithTwoChildren(node: BSTNode<K, V>) {
-        val successor = min(node.right) ?: return
+        val successor = findMinKeyInSubtree(node.right) ?: return
         val successorRight = successor.right
 
         if (successor == node.right) {

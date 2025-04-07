@@ -116,7 +116,7 @@ class BinarySearchTreeTest {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.insert(7, "7")
-        assertEquals(3, bst.min())
+        assertEquals(3, bst.findMinKey())
     }
 
     @Test
@@ -124,17 +124,17 @@ class BinarySearchTreeTest {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.insert(7, "7")
-        assertEquals(7, bst.max())
+        assertEquals(7, bst.findMaxKey())
     }
 
     @Test
     fun `min should return null for empty tree`() {
-        assertNull(bst.min())
+        assertNull(bst.findMinKey())
     }
 
     @Test
     fun `max should return null for empty tree`() {
-        assertNull(bst.max())
+        assertNull(bst.findMaxKey())
     }
 
     @Test
@@ -155,8 +155,8 @@ class BinarySearchTreeTest {
                 assertNull(bst.search(i))
             }
         }
-        assertEquals(1, bst.min())
-        assertEquals(9, bst.max())
+        assertEquals(1, bst.findMinKey())
+        assertEquals(9, bst.findMaxKey())
         val expected = listOf(1, 3, 5, 7, 9)
         val actual = bst.map { it.key }
         assertEquals(expected, actual)
@@ -242,7 +242,7 @@ internal class BinarySearchTreeProperties {
         val bst = TestableBSTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
-        assertThat(bst.min()).isEqualTo(keys.minOrNull())
+        assertThat(bst.findMinKey()).isEqualTo(keys.minOrNull())
 
         var current = bst.getRoot()
         while (current?.left != null) {
@@ -258,7 +258,7 @@ internal class BinarySearchTreeProperties {
         val bst = TestableBSTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
 
-        assertThat(bst.max()).isEqualTo(keys.maxOrNull())
+        assertThat(bst.findMaxKey()).isEqualTo(keys.maxOrNull())
 
         var current = bst.getRoot()
         while (current?.right != null) {

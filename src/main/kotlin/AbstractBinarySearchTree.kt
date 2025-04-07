@@ -45,22 +45,22 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
         return root == null
     }
 
-    fun max(): K? {
-        return max(root)?.key
+    fun findMaxKey(): K? {
+        return findMaxKeyInSubtree(root)?.key
     }
 
-    fun min(): K? {
-        return min(root)?.key
+    fun findMinKey(): K? {
+        return findMinKeyInSubtree(root)?.key
     }
 
-    protected fun max(node: T?): T? {
+    protected fun findMaxKeyInSubtree(node: T?): T? {
         var currentNode = node
         while (currentNode?.right != null)
             currentNode = currentNode.right
         return currentNode
     }
 
-    protected fun min(node: T?): T? {
+    protected fun findMinKeyInSubtree(node: T?): T? {
         var currentNode = node
         while (currentNode?.left != null)
             currentNode = currentNode.left
