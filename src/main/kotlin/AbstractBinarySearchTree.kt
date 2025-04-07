@@ -45,10 +45,6 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
         return root == null
     }
 
-    fun isNotEmpty(): Boolean {
-        return root != null
-    }
-
     fun max(): K? {
         return max(root)?.key
     }
