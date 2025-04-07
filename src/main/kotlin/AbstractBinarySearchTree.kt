@@ -1,5 +1,4 @@
-abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>> :
-    BinaryTree<K, V>, Iterable<T> {
+abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>> : BinaryTree<K, V>, Iterable<T> {
     private var modificationCount: Long = 0
     protected var root: T? = null
 
@@ -55,15 +54,17 @@ abstract class AbstractBinarySearchTree<K : Comparable<K>, V, T : Node<K, V, T>>
 
     protected fun findMaxKeyInSubtree(node: T?): T? {
         var currentNode = node
-        while (currentNode?.right != null)
+        while (currentNode?.right != null) {
             currentNode = currentNode.right
+        }
         return currentNode
     }
 
     protected fun findMinKeyInSubtree(node: T?): T? {
         var currentNode = node
-        while (currentNode?.left != null)
+        while (currentNode?.left != null) {
             currentNode = currentNode.left
+        }
         return currentNode
     }
 
