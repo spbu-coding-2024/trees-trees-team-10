@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -12,6 +13,12 @@ class AVLTreeTest {
     @BeforeEach
     fun setUp() {
         avlTree = TestAVLTree()
+    }
+
+    @AfterEach
+    fun checkAVLTreeProperties() {
+        assertTrue(avlTree.isBST())
+        assertTrue(avlTree.isBalanced())
     }
 
     @Test
@@ -130,7 +137,6 @@ class AVLTreeTest {
         }
 
         values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
-        assertTrue(avlTree.isBalanced())
     }
 
     @Test
@@ -145,8 +151,6 @@ class AVLTreeTest {
         assertNull(avlTree.search(10))
         assertNull(avlTree.search(40))
         assertNull(avlTree.search(25))
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
@@ -212,9 +216,6 @@ class AVLTreeTest {
         }
 
         keys.forEach { assertEquals(it.toString(), avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
@@ -241,9 +242,6 @@ class AVLTreeTest {
         }
 
         keysToDelete.forEach { assertNull(avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
@@ -262,9 +260,6 @@ class AVLTreeTest {
         }
 
         keysToDelete.forEach { assertNull(avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 }
 
