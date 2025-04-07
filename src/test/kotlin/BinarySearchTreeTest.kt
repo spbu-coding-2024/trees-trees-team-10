@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 class BinarySearchTreeTest {
@@ -143,6 +144,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    @Tag("Slow")
     fun `test complex scenario`() {
         for (i in 1..10) {
             bst.insert(i, "value$i")
@@ -168,6 +170,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    @Tag("Slow")
     fun `test large tree`() {
         val size = 10000
         for (i in 0..size) {
