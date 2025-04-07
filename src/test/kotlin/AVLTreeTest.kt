@@ -122,8 +122,12 @@ class AVLTreeTest {
 
     @Test
     fun `tree is balanced after multiple inserts`() {
-        val values = listOf(10, 20, 30, 40, 50, 25)
-        values.forEach { avlTree.insert(it, it.toString()) }
+        val values = listOf(10, 20, 30, 40, 35, 5, 2, 7, 9)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
 
         values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
         assertTrue(avlTree.isBalanced())
