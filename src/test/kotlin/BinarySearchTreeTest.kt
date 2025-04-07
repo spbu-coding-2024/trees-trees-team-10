@@ -223,11 +223,23 @@ internal class BinarySearchTreeProperties {
     }
 
     @Property
-    fun `BST invariants`(
+    fun `BST invariants after insert`(
         @ForAll keys: List<Int>,
     ) {
         val bst = TestableBinarySearchTree<Int, String>()
         keys.forEach { bst.insert(it, "value_$it") }
+
+        assert(bst.isBinarySearchTree())
+    }
+
+    @Property
+    fun `BST invariants after insert and delete`(
+    @ForAll keys: List<Int>,
+    @ForAll deleteKeys: List<Int>
+    ) {
+        val bst = TestableBinarySearchTree<Int, String>()
+        keys.forEach { bst.insert(it, "value_$it") }
+        deleteKeys.forEach { bst.delete(it) }
 
         assert(bst.isBinarySearchTree())
     }
