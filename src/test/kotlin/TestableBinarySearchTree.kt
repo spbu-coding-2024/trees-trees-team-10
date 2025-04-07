@@ -21,4 +21,8 @@ class TestableBinarySearchTree<K : Comparable<K>, V> : BinarySearchTree<K, V>() 
         node ?: return emptyList()
         return collectInOrder(node.left) + listOf(node.key) + collectInOrder(node.right)
     }
+
+    fun insertMap(items: Map<K, V>){
+        items.forEach { (key, value) -> insert(key, value) }
+    }
 }

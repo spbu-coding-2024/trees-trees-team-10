@@ -11,6 +11,16 @@ import org.junit.jupiter.api.Test
 
 class BinarySearchTreeTest {
     private lateinit var bst: TestableBinarySearchTree<Int, String>
+    var keysAndValues = mapOf<Int, String>(
+        5 to "5",
+        3 to "3",
+        7 to "7",
+        2 to "2",
+        4 to "4",
+        6 to "6",
+        8 to "8",
+        9 to "9"
+    )
 
     @BeforeEach
     fun setUp() {
@@ -19,15 +29,9 @@ class BinarySearchTreeTest {
 
     @Test
     fun `iterator should traverse in order`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.insert(7, "7")
-        bst.insert(2, "2")
-        bst.insert(4, "4")
-        bst.insert(6, "6")
-        bst.insert(8, "8")
+        bst.insertMap(keysAndValues)
 
-        val expected = listOf(2, 3, 4, 5, 6, 7, 8)
+        val expected = listOf(2, 3, 4, 5, 6, 7, 8, 9)
         val actual = bst.map { it.key }
 
         assertEquals(expected, actual)
@@ -82,73 +86,59 @@ class BinarySearchTreeTest {
 
     @Test
     fun `delete node with no children`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.delete(3)
+        bst.insertMap(keysAndValues)
+        bst.delete(2)
 
-        assertNull(bst.search(3))
-        assertEquals("5", bst.search(5))
+        assertNull(bst.search(2))
+        assertEquals(listOf(3, 4, 5, 6, 7, 8, 9), bst.map { it.key })
     }
 
     @Test
     fun `delete non-existent key`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.delete(2)
+        bst.insertMap(keysAndValues)
+        bst.delete(10)
 
-        assertEquals(listOf(3, 5), bst.map { it.key })
+        assertEquals(listOf(2, 3, 4, 5, 6, 7, 8, 9), bst.map { it.key })
     }
 
     @Test
     fun `delete node with one child`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.insert(2, "2")
-        bst.delete(3)
+        bst.insertMap(keysAndValues)
 
-        assertNull(bst.search(3))
-        assertEquals(listOf(2, 5), bst.map { it.key })
+        bst.delete(8)
+
+        assertNull(bst.search(8))
+        assertEquals(listOf(2, 3, 4, 5, 6, 7, 9), bst.map { it.key })
     }
 
     @Test
     fun `delete node with two children`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.insert(7, "7")
-        bst.insert(2, "2")
-        bst.insert(4, "4")
-        bst.insert(6, "6")
-        bst.insert(8, "8")
+        bst.insertMap(keysAndValues)
+        bst.delete(7)
 
-        bst.delete(5)
-
-        assertNull(bst.search(5))
-        assertEquals(listOf(2, 3, 4, 6, 7, 8), bst.map { it.key })
+        assertNull(bst.search(7))
+        assertEquals(listOf(2, 3, 4, 5, 6, 8, 9), bst.map { it.key })
     }
 
     @Test
-    fun `min should return smallest key`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.insert(7, "7")
-        assertEquals(3, bst.findMinKey())
+    fun `findMinKey should return smallest key`() {
+        bst.insertMap(keysAndValues)
+        assertEquals(2, bst.findMinKey())
     }
 
     @Test
-    fun `max should return largest key`() {
-        bst.insert(5, "5")
-        bst.insert(3, "3")
-        bst.insert(7, "7")
-        assertEquals(7, bst.findMaxKey())
+    fun `findMaxKey should return largest key`() {
+        bst.insertMap(keysAndValues)
+        assertEquals(9, bst.findMaxKey())
     }
 
     @Test
-    fun `min should return null for empty tree`() {
+    fun `findMinKey should return null for empty tree`() {
         assertNull(bst.findMinKey())
     }
 
     @Test
-    fun `max should return null for empty tree`() {
+    fun `findMaxKey should return null for empty tree`() {
         assertNull(bst.findMaxKey())
     }
 
