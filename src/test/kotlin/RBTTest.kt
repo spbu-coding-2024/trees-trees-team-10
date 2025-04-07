@@ -191,13 +191,13 @@ class RBTTest {
         val testTree = RBTForTest<Int, String>()
         for (i in 1..10)
             testTree.insert(i, "$i")
-        assertEquals(testTree.max(), 10)
+        assertEquals(testTree.findMaxKey(), 10)
     }
 
     @Test
     fun `max element in empty tree`() {
         val testTree = RBTForTest<Int, String>()
-        assertEquals(testTree.max(), null)
+        assertEquals(testTree.findMaxKey(), null)
     }
 
     @Test
@@ -205,13 +205,13 @@ class RBTTest {
         val testTree = RBTForTest<Int, String>()
         for (i in 1..10)
             testTree.insert(i, "$i")
-        assertEquals(testTree.min(), 1)
+        assertEquals(testTree.findMinKey(), 1)
     }
 
     @Test
     fun `min element in empty tree`() {
         val testTree = RBTForTest<Int, String>()
-        assertEquals(testTree.min(), null)
+        assertEquals(testTree.findMinKey(), null)
     }
 
     @Test

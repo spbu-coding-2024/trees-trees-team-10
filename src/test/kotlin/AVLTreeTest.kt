@@ -158,8 +158,8 @@ class AVLTreeTest {
         val values = listOf(10, 20, 30, 40, 50, 25, 5, 15, 35, 45)
         values.forEach { avlTree.insert(it, it.toString()) }
 
-        assertEquals(5, avlTree.min())
-        assertEquals(50, avlTree.max())
+        assertEquals(5, avlTree.findMinKey())
+        assertEquals(50, avlTree.findMaxKey())
     }
 
     @Test

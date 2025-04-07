@@ -188,9 +188,9 @@ open class RedBlackTree<K : Comparable<K>, V> internal constructor() : AbstractB
 
     private fun delete(n: RBTNode<K, V>?) {
         n ?: return
-        var deleteNode: RBTNode<K, V>? = max(n.left)
+        var deleteNode: RBTNode<K, V>? = findMaxKeyInSubtree(n.left)
         if (deleteNode == null) {
-            deleteNode = min(n.right)
+            deleteNode = findMinKeyInSubtree(n.right)
         }
         deleteNode = deleteNode ?: n
         if (deleteNode == root) {

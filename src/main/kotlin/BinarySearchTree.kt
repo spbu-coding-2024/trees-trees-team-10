@@ -7,27 +7,27 @@ open class BinarySearchTree<K : Comparable<K>, V> : AbstractBinarySearchTree<K, 
             root = BSTNode(key, value)
             return
         }
-        var curNode = root
-        while (curNode != null) {
+        var currentNode = root
+        while (currentNode != null) {
             when {
-                curNode.key < key -> {
-                    if (curNode.right == null) {
-                        curNode.right = BSTNode(key, value)
+                currentNode.key < key -> {
+                    if (currentNode.right == null) {
+                        currentNode.right = BSTNode(key, value)
                         return
                     }
-                    curNode = curNode.right
+                    currentNode = currentNode.right
                 }
 
-                curNode.key > key -> {
-                    if (curNode.left == null) {
-                        curNode.left = BSTNode(key, value)
+                currentNode.key > key -> {
+                    if (currentNode.left == null) {
+                        currentNode.left = BSTNode(key, value)
                         return
                     }
-                    curNode = curNode.left
+                    currentNode = currentNode.left
                 }
 
                 else -> {
-                    curNode.value = value
+                    currentNode.value = value
                     return
                 }
             }
@@ -35,34 +35,56 @@ open class BinarySearchTree<K : Comparable<K>, V> : AbstractBinarySearchTree<K, 
     }
 
     override fun deleteInternal(key: K) {
-        var curNode = root
-        var parent: BSTNode<K, V>? = null
-        while (curNode != null && curNode.key != key) {
-            parent = curNode
-            curNode = if (key < curNode.key) curNode.left else curNode.right
-        }
-        val nodeToDelete = curNode ?: return
+        val (nodeToDelete, parent) = findNodeAndParent(key) ?: return
+
         if (nodeToDelete.left == null || nodeToDelete.right == null) {
-            val child = nodeToDelete.left ?: nodeToDelete.right
-            when {
-                parent == null -> root = child
-                nodeToDelete == parent.left -> parent.left = child
-                else -> parent.right = child
-            }
+            deleteNodeWithZeroOrOneChild(nodeToDelete, parent)
         } else {
-            val successor = min(nodeToDelete.right) ?: return
-            val successorRight = successor.right
-            if (successor == nodeToDelete.right) {
-                nodeToDelete.right = successorRight
-            } else {
-                var successorParent = nodeToDelete.right
-                while (successorParent?.left != successor) {
-                    successorParent = successorParent?.left
-                }
-                successorParent.left = successorRight
-            }
-            nodeToDelete.key = successor.key
-            nodeToDelete.value = successor.value
+            deleteNodeWithTwoChildren(nodeToDelete)
         }
+    }
+
+    private fun findNodeAndParent(key: K): Pair<BSTNode<K, V>, BSTNode<K, V>?>? {
+        var currentNode = root
+        var parent: BSTNode<K, V>? = null
+
+        while (currentNode != null && currentNode.key != key) {
+            parent = currentNode
+            currentNode = if (key < currentNode.key) currentNode.left else currentNode.right
+        }
+
+        return currentNode?.let { Pair(it, parent) }
+    }
+
+    private fun deleteNodeWithZeroOrOneChild(node: BSTNode<K, V>, parent: BSTNode<K, V>?) {
+        val child = node.left ?: node.right
+
+        when {
+            parent == null -> root = child
+            node == parent.left -> parent.left = child
+            else -> parent.right = child
+        }
+    }
+
+    private fun deleteNodeWithTwoChildren(node: BSTNode<K, V>) {
+        val successor = findMinKeyInSubtree(node.right) ?: return
+        val successorRight = successor.right
+
+        if (successor == node.right) {
+            node.right = successorRight
+        } else {
+            findSuccessorParent(node.right, successor)?.left = successorRight
+        }
+
+        node.key = successor.key
+        node.value = successor.value
+    }
+
+    private fun findSuccessorParent(startNode: BSTNode<K, V>?, successor: BSTNode<K, V>): BSTNode<K, V>? {
+        var parent = startNode
+        while (parent?.left != successor) {
+            parent = parent?.left
+        }
+        return parent
     }
 }
