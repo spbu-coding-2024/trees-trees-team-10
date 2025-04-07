@@ -1,6 +1,8 @@
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertThrows
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
@@ -11,6 +13,12 @@ class AVLTreeTest {
     @BeforeEach
     fun setUp() {
         avlTree = TestAVLTree()
+    }
+
+    @AfterEach
+    fun checkAVLTreeProperties() {
+        assertTrue(avlTree.isBST())
+        assertTrue(avlTree.isBalanced())
     }
 
     @Test
@@ -29,6 +37,54 @@ class AVLTreeTest {
         avlTree.insert(10, "Ten")
         avlTree.insert(10, "Eleven")
         assertEquals("Eleven", avlTree.search(10))
+    }
+
+    @Test
+    fun `LL insertion`(){
+        val values = listOf(30, 20, 10)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `RR insertion`(){
+        val values = listOf(10, 20, 30)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `LR insertion`(){
+        val values = listOf(30, 10, 20)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `RL insertion`(){
+        val values = listOf(10, 20, 15)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
     }
 
     @Test
@@ -73,11 +129,14 @@ class AVLTreeTest {
 
     @Test
     fun `tree is balanced after multiple inserts`() {
-        val values = listOf(10, 20, 30, 40, 50, 25)
-        values.forEach { avlTree.insert(it, it.toString()) }
+        val values = listOf(10, 20, 30, 40, 35, 5, 2, 7, 9)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
 
         values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
-        assertTrue(avlTree.isBalanced())
     }
 
     @Test
@@ -92,8 +151,6 @@ class AVLTreeTest {
         assertNull(avlTree.search(10))
         assertNull(avlTree.search(40))
         assertNull(avlTree.search(25))
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
@@ -159,12 +216,10 @@ class AVLTreeTest {
         }
 
         keys.forEach { assertEquals(it.toString(), avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
+    @Tag("Slow")
     fun `random insertions and deletions maintain AVL properties`() {
         val random = Random(228)
         val keys = (1..5000).map { random.nextInt(100000) }.distinct()
@@ -187,12 +242,10 @@ class AVLTreeTest {
         }
 
         keysToDelete.forEach { assertNull(avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 
     @Test
+    @Tag("Slow")
     fun `random insertions and deletions maintain AVL properties 2`() {
         val random = Random(1337)
         val keys = (1..50000).map { random.nextInt(1000000000) }.distinct()
@@ -207,9 +260,6 @@ class AVLTreeTest {
         }
 
         keysToDelete.forEach { assertNull(avlTree.search(it)) }
-
-        assertTrue(avlTree.isBalanced())
-        assertTrue(avlTree.isBST())
     }
 }
 
