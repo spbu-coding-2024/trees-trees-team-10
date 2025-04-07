@@ -1,4 +1,4 @@
-open class AVLTree<K: Comparable<K>, V> internal constructor() : AbstractBinarySearchTree<K, V, AVLNode<K, V>>() {
+open class AVLTree<K: Comparable<K>, V> : AbstractBinarySearchTree<K, V, AVLNode<K, V>>() {
 
     override fun insertInternal(key: K, value: V) {
         root = insertRecursive(root, key, value)
