@@ -33,6 +33,54 @@ class AVLTreeTest {
     }
 
     @Test
+    fun `LL insertion`(){
+        val values = listOf(30, 20, 10)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `RR insertion`(){
+        val values = listOf(10, 20, 30)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `LR insertion`(){
+        val values = listOf(30, 10, 20)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
+    fun `RL insertion`(){
+        val values = listOf(10, 20, 15)
+        values.forEach {
+            avlTree.insert(it, it.toString())
+            assertTrue(avlTree.isBST())
+            assertTrue(avlTree.isBalanced())
+        }
+
+        values.forEach { assertEquals(it.toString(), avlTree.search(it)) }
+    }
+
+    @Test
     fun `delete non-existent`() {
         avlTree.insert(10, "Ten")
         avlTree.delete(20)
