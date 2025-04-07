@@ -20,22 +20,22 @@ open class AVLTree<K: Comparable<K>, V> : AbstractBinarySearchTree<K, V, AVLNode
         return getHeight(node?.right)-getHeight(node?.left)
     }
 
-    private fun rotateLeft(a: AVLNode<K, V>): AVLNode<K, V> {
-        val b = a.right ?: return a
-        a.right = b.left
-        b.left = a
-        updateHeight(a)
-        updateHeight(b)
-        return b
+    private fun rotateLeft(node: AVLNode<K, V>): AVLNode<K, V> {
+        val right = node.right ?: return node
+        node.right = right.left
+        right.left = node
+        updateHeight(node)
+        updateHeight(right)
+        return right
     }
 
-    private fun rotateRight(a: AVLNode<K, V>): AVLNode<K, V> {
-        val b = a.left ?: return a
-        a.left = b.right
-        b.right = a
-        updateHeight(a)
-        updateHeight(b)
-        return b
+    private fun rotateRight(node: AVLNode<K, V>): AVLNode<K, V> {
+        val left = node.left ?: return node
+        node.left = left.right
+        left.right = node
+        updateHeight(node)
+        updateHeight(left)
+        return left
     }
 
     private fun balance(node: AVLNode<K, V>): AVLNode<K, V> {
