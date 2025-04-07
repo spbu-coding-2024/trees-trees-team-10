@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.assertThrows
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
@@ -165,6 +166,7 @@ class AVLTreeTest {
     }
 
     @Test
+    @Tag("Slow")
     fun `random insertions and deletions maintain AVL properties`() {
         val random = Random(228)
         val keys = (1..5000).map { random.nextInt(100000) }.distinct()
@@ -193,6 +195,7 @@ class AVLTreeTest {
     }
 
     @Test
+    @Tag("Slow")
     fun `random insertions and deletions maintain AVL properties 2`() {
         val random = Random(1337)
         val keys = (1..50000).map { random.nextInt(1000000000) }.distinct()
